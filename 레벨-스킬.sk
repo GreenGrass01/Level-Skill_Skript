@@ -1,0 +1,146 @@
+options:
+    렙 :&8&l[ &7&l레벨 &8&l]&f
+
+function ExpUp(p:player, t:text, b:object):
+    set {lvl.%{_p}%} to {_b}
+    add {_b} to {레벨.%{_t}%Per::%{_p}%}
+    if {레벨.%{_t}%Per::%{_p}%} >= 100:
+        add 1 to {레벨.%{_t}%Lv::%{_p}%}
+        set {레벨.%{_t}%Per::%{_p}%} to 0
+        add 1 to {스텟포인트.%{_p}%}
+        if {레벨.%{_t}%Lv::%{_p}%} = 5:
+            broadcast "{@렙} &c%{_p}% &f님이 &7%{_t}% &a&l%{레벨.%{_t}%Lv::%{_p}%}%&f레벨을 달성하셨습니다!"
+            send action bar "&aLv.%{레벨.%{_t}%Lv::%{_p}%}% &f달성!" to {_p}
+        else if {레벨.%{_t}%Lv::%{_p}%} = 10:
+            broadcast ""
+            broadcast "{@렙} &c%{_p}% &f님이 &7%{_t}% &3&l%{레벨.%{_t}%Lv::%{_p}%}%&f레벨을 달성하셨습니다!"
+            broadcast ""
+            send action bar "&aLv.%{레벨.%{_t}%Lv::%{_p}%}% &f달성!" to {_p}
+        else if {레벨.%{_t}%Lv::%{_p}%} = 25:
+            broadcast ""
+            broadcast "{@렙} &c%{_p}% &f님이 &7%{_t}% &4&l%{레벨.%{_t}%Lv::%{_p}%}%&f레벨을 달성하셨습니다!"
+            broadcast ""
+            send action bar "&4Lv.%{레벨.%{_t}%Lv::%{_p}%}% &f달성!" to {_p}
+        else if {레벨.%{_t}%Lv::%{_p}%} = 50:
+            broadcast ""
+            broadcast "{@렙} &c%{_p}% &f님이 &7%{_t}% &b&l%{레벨.%{_t}%Lv::%{_p}%}%&f레벨을 달성하셨습니다!"
+            broadcast ""
+            send action bar "&bLv.%{레벨.%{_t}%Lv::%{_p}%}% &f달성!" to {_p}
+        else:
+            send "{@렙} &7%{_t}% &aLv.%{레벨.%{_t}%Lv::%{_p}%}% &f달성!" to {_p}
+
+variables:
+    {레벨.MiningPer::%player%} = 0
+    {레벨.MiningLv::%player%} = 0
+    {레벨.CarpentryLv::%player%} = 0
+    {레벨.CarpentryPer::%player%} = 0
+
+command /miningskill1:
+    cooldown: 1 minutes
+    cooldown message: 쿨타임이 &a%remaining time%&f 남았습니다.
+    trigger:
+        if {레벨.MiningLv::%player%} >= 5:
+            apply potion of haste 4 without particles to player for 25 seconds
+        else:
+            send "이 스킬은 &7Mining&f 레벨이 &c&l5&f 이상이여야 사용이 가능합니다!"
+
+on break of stone or Granite or andesite:
+    if player's tool is wooden pickaxe or stone pickaxe or iron pickaxe or golden pickaxe or diamond pickaxe:
+        ExpUp(player, "Mining", 100 / ({레벨.MiningLv::%player%} ^ 2 + 40))
+        send action bar "[ Mining Lv : %{레벨.MiningLv::%player%}% / %{레벨.MiningPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+
+on break of coal ore:
+    if player's tool is wooden pickaxe or stone pickaxe or iron pickaxe or golden pickaxe or diamond pickaxe:
+        ExpUp(player, "Mining", 100 / ({레벨.MiningLv::%player%} ^ 2 + 38))
+        send action bar "[ Mining Lv : %{레벨.MiningLv::%player%}% / %{레벨.MiningPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+
+on break of iron ore:
+    if player's tool is wooden pickaxe or stone pickaxe or iron pickaxe or golden pickaxe or diamond pickaxe:
+        ExpUp(player, "Mining", 100 / ({레벨.MiningLv::%player%} ^ 2 + 32))
+        send action bar "[ Mining Lv : %{레벨.MiningLv::%player%}% / %{레벨.MiningPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+
+on break of gold ore:
+    if player's tool is wooden pickaxe or stone pickaxe or iron pickaxe or golden pickaxe or diamond pickaxe:
+        ExpUp(player, "Mining", 100 / ({레벨.MiningLv::%player%} ^ 2 + 28))
+        send action bar "[ Mining Lv : %{레벨.MiningLv::%player%}% / %{레벨.MiningPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+    
+on break of emerald ore:
+    if player's tool is wooden pickaxe or stone pickaxe or iron pickaxe or golden pickaxe or diamond pickaxe:
+        ExpUp(player, "Mining", 100 / ({레벨.MiningLv::%player%} ^ 2 + 23))
+        send action bar "[ Mining Lv : %{레벨.MiningLv::%player%}% / %{레벨.MiningPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+
+on break of oak log:
+    if player's tool is wooden axe or stone axe or iron axe or golden axe or diamond axe:
+        ExpUp(player, "Carpentry", 100 / ({레벨.CarpentryLv::%player%} ^ 2 + 30))
+        send action bar "[ Carpentry Lv : %{레벨.CarpentryLv::%player%}% / %{레벨.CarpentryPer::%player%}%%%&7(+%{lvl.%player%}%%%) &f]" to player
+
+on swap items:
+    if player is sneaking:
+        open chest with 3 rows named "&a&lSkills" to player
+        set slot integers between 0 and 9 of player's current inventory to white glass pane
+        set slot 10 of player's current inventory to diamond pickaxe with name "&7&lMining(광질)"
+        set slot 11 of player's current inventory to white glass pane
+        set slot 12 of player's current inventory to diamond axe with name "&7&lCarpentry(벌목)"
+        set slot 13 of player's current inventory to white glass pane
+        set slot 15 of player's current inventory to white glass pane
+        set slot 17 of player's current inventory to white glass pane
+        set slot integers between 18 and 26 of player's current inventory to white glass pane
+
+on inventory click:
+    if iname contains "&a&lSkills":
+        if item's name contains "&7&lMining(광질)":
+            open chest with 3 rows named "&7&lMining &a&lSkill" to player
+            set slot integers between 0 and 9 of player's current inventory to white glass pane
+            set slot 10 of player's current inventory to golden pickaxe named "&6&l빠른 채굴" with lore "&b스킬 사용(좌클릭)" and "&3스킬 정보(우클릭)"
+            set slot 11 of player's current inventory to white glass pane
+            set slot 13 of player's current inventory to white glass pane
+            set slot 15 of player's current inventory to white glass pane
+            set slot 17 of player's current inventory to white glass pane
+            set slot integers between 18 and 26 of player's current inventory to white glass pane
+        else if item's name contains "&7&lCarpentry(벌목)":
+            open chest with 3 rows named "&7&lCarpentry &a&lSkill" to player
+            set slot integers between 0 and 9 of player's current inventory to white glass pane
+            set slot 11 of player's current inventory to white glass pane
+            set slot 13 of player's current inventory to white glass pane
+            set slot 15 of player's current inventory to white glass pane
+            set slot 17 of player's current inventory to white glass pane
+            set slot integers between 18 and 26 of player's current inventory to white glass pane
+        else:
+            cancel event
+    if iname contains "&7&lMining &a&lSkill":
+        if item's name contains "&6&l빠른 채굴":
+            if type is right:
+                send "&6&l빠른 채굴%nl%&7사용 시 25초 동안 성급함 4를 지급받습니다.%nl%&f쿨타임 : 1분%nl%%nl%&cMining Lv.5 부터 사용 가능"
+        else:
+            cancel event
+
+    if iname contains "&8[ &7스텟 &8]":
+        cancel event
+
+    if click type contains "RIGHT":
+        execute player command "/miningskill1"
+
+command /레벨초기화:
+    trigger:
+        set {레벨.MiningPer::%player%} to 0
+        set {레벨.MiningLv::%player%} to 0
+        set {레벨.CarpentryPer::%player%} to 0
+        set {레벨.CarpentryLv::%player%} to 0
+
+command /레벨설정 [<integer>]:
+    trigger:
+        set {레벨.MiningLv::%player%} to arg 1
+
+command /경험치설정 [<integer>]:
+    trigger:
+        set {레벨.MiningPer::%player%} to arg 1
+
+command /스텟 [<offlineplayer>]:
+    trigger:
+        open chest with 3 rows named "&8[ &7스텟 &8]" to player
+        set slot integers between 0 and 9 of player's current inventory to white glass pane with name " "
+        set slot 11 of player's current inventory to white glass pane with name " "
+        set slot 13 of player's current inventory to white glass pane with name " "
+        set slot 15 of player's current inventory to white glass pane with name " "
+        set slot 17 of player's current inventory to white glass pane with name " "
+        set slot integers between 18 and 26 of player's current inventory to white glass pane with name " "
